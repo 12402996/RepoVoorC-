@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Variabelen2kassa")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bd6002d50723ebaadef8d6a656d27ff90fe08d5f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Variabelen2kassa")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Variabelen2kassa")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

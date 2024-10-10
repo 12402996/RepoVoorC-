@@ -29,9 +29,11 @@ namespace Variabelen2kassa
                 bool isValid = double.TryParse(VATNumberTextBox.Text, out VATNumber);
                 if (isValid)
                 { }
-                else {
-            }
+                else
+                {
+                }
 
+            }
         }
     }
 }
