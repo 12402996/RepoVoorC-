@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\12402996\\source\\repos\\C# Essentials\\OefeningenInKlas\\Variabelen2kassa\\Variabelen2kassa\\Variabelen2kassa.csproj",
+      "projectUniqueName": "C:\\Users\\12402996\\source\\repos\\C# Essentials\\ZelfStudieTHUIS\\TestGitHubPushToMain\\Variabelen2kassa\\Variabelen2kassa\\Variabelen2kassa.csproj",
       "projectName": "Variabelen2kassa",
-      "projectPath": "C:\\Users\\12402996\\source\\repos\\C# Essentials\\OefeningenInKlas\\Variabelen2kassa\\Variabelen2kassa\\Variabelen2kassa.csproj",
+      "projectPath": "C:\\Users\\12402996\\source\\repos\\C# Essentials\\ZelfStudieTHUIS\\TestGitHubPushToMain\\Variabelen2kassa\\Variabelen2kassa\\Variabelen2kassa.csproj",
       "packagesPath": "C:\\Users\\12402996\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\12402996\\source\\repos\\C# Essentials\\OefeningenInKlas\\Variabelen2kassa\\Variabelen2kassa\\obj\\",
+      "outputPath": "C:\\Users\\12402996\\source\\repos\\C# Essentials\\ZelfStudieTHUIS\\TestGitHubPushToMain\\Variabelen2kassa\\Variabelen2kassa\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\12402996\\AppData\\Roaming\\NuGet\\NuGet.Config",
