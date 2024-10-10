@@ -1,0 +1,14 @@
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\bin\Debug\net8.0\VariabeleLabo.exe
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\bin\Debug\net8.0\VariabeleLabo.deps.json
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\bin\Debug\net8.0\VariabeleLabo.runtimeconfig.json
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\bin\Debug\net8.0\VariabeleLabo.dll
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\bin\Debug\net8.0\VariabeleLabo.pdb
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\obj\Debug\net8.0\VariabeleLabo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\obj\Debug\net8.0\VariabeleLabo.AssemblyInfoInputs.cache
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\obj\Debug\net8.0\VariabeleLabo.AssemblyInfo.cs
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\obj\Debug\net8.0\VariabeleLabo.csproj.CoreCompileInputs.cache
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\obj\Debug\net8.0\VariabeleLabo.dll
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\obj\Debug\net8.0\refint\VariabeleLabo.dll
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\obj\Debug\net8.0\VariabeleLabo.pdb
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\obj\Debug\net8.0\VariabeleLabo.genruntimeconfig.cache
+C:\Users\12402996\source\repos\C# Essentials\OefeningenInKlas\VariabeleLabo\VariabeleLabo\obj\Debug\net8.0\ref\VariabeleLabo.dll
