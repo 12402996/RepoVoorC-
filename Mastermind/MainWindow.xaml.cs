@@ -27,7 +27,6 @@ namespace C_mastermindSprint1
         DateTime startedGuessTime;
         public MainWindow()
         {
-
             InitializeComponent();
 
             var randomCode = new Random();
