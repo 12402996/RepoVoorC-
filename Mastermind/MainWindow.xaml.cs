@@ -1,4 +1,5 @@
 ﻿using System.Printing;
+using System.Reflection;
 using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks.Dataflow;
@@ -12,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static System.Net.WebRequestMethods;
 
 namespace C_mastermindSprint1
 {
@@ -28,28 +30,36 @@ namespace C_mastermindSprint1
         public MainWindow()
         {
             InitializeComponent();
-
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            StartTimer();
+            StopCountDown();
             var randomCode = new Random();
 
             for (int i = 0; i < 4; i++)
             {
                 secretCode.Add(colors[randomCode.Next(colors.Count)]);
-
             }
+
             //this.Title = "Secret code: " + string.Join(", ", secretCode);
             generatedCodeTextBox.Text = $"{secretCode}".ToString();
-           
-            Timer();
+            this.Title = $"Poging: {guessAttempts}";
         }
 
-
-        private void Timer()
+        private void StopCountDown()
         {
-            //timer = new DispatcherTimer();
+            /*De timer stopt na 10 seconden. 
+            Wanneer de speler niet binnen de tijd op de knop "Check code" klikt verliest hij zijn beurt. 
+            Gebruik de methode stopcountdown hiervoor.*/
+        }
+
+        private void StartTimer()
+        {
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Tick += Timer_Tick;
             startedGuessTime = DateTime.Now;
-            timer.Start();
+            timer.Start();            
         }
 
         private void Timer_Tick(object? sender, EventArgs e)
@@ -61,10 +71,11 @@ namespace C_mastermindSprint1
             {
                 guessAttempts++;
                 startedGuessTime = DateTime.Now;
+                MessageBox.Show("Je beurt is over, probeer opnieuw", "Je tijd is verstreken, To Slow.`", MessageBoxButton.OK, MessageBoxImage.Warning);           
             }
-            timerTextBox.Text = DateTime.Now.ToString("ss");
-            // Deel 2.a reset timer en verhoog attempts
+            timerTextBox.Text = timeUsedToGuess.TotalSeconds.ToString("N0");            
         }
+
         private void ComboBoxColour_SelectionChanged1(object sender, SelectionChangedEventArgs e)
         {
             if (sender == comboBoxColour1 && comboBoxColour1.SelectedItem != null)
@@ -173,6 +184,7 @@ namespace C_mastermindSprint1
                 guessAttempts++;
                 this.Title = $"Poging: " + guessAttempts;
                 UpdateTitle();
+                StartTimer();
             }
             string checkColor1 = comboBoxColour1.Text;
             string checkColor2 = comboBoxColour2.Text;
@@ -223,6 +235,7 @@ namespace C_mastermindSprint1
             sb.Append(guessAttempts);
             this.Title = sb.ToString();
         }
+
 
 
         //private void ToggleDebug()
