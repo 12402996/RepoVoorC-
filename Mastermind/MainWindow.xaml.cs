@@ -41,7 +41,6 @@ namespace C_mastermindSprint1
                 secretCode.Add(colors[randomCode.Next(colors.Count)]);
             }
 
-            //this.Title = "Secret code: " + string.Join(", ", secretCode);
             generatedCodeTextBox.Text = $"{secretCode}".ToString();
             this.Title = $"Poging: {guessAttempts}";
         }
@@ -52,11 +51,10 @@ namespace C_mastermindSprint1
             // Deel 2. controle, if time > 10 seconds
             if (timeUsedToGuess.TotalSeconds > 10)
             {
-
                 StopCountDown();
-                startedGuessTime = DateTime.Now.AddSeconds(-1);                           
+                startedGuessTime = DateTime.Now.AddSeconds(-1);
             }
-            timerTextBox.Text = timeUsedToGuess.TotalSeconds.ToString("N0");            
+            timerTextBox.Text = timeUsedToGuess.TotalSeconds.ToString("N0");
         }
 
         private void StopCountDown()
@@ -73,7 +71,7 @@ namespace C_mastermindSprint1
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Tick += Timer_Tick;
             startedGuessTime = DateTime.Now;
-            timer.Start();            
+            timer.Start();
         }
 
 
@@ -199,13 +197,17 @@ namespace C_mastermindSprint1
 
                 switch (i)
                 {
-                    case 0: checkColors = labelColorOne;
+                    case 0:
+                        checkColors = labelColorOne;
                         break;
-                    case 1: checkColors = labelColorTwo;
+                    case 1:
+                        checkColors = labelColorTwo;
                         break;
-                    case 2: checkColors = labelColorThree;
+                    case 2:
+                        checkColors = labelColorThree;
                         break;
-                    case 3: checkColors = labelColorFour;
+                    case 3:
+                        checkColors = labelColorFour;
                         break;
                 }
 
@@ -227,32 +229,32 @@ namespace C_mastermindSprint1
             }
 
         }
-        //Mastermind PE1-02 Debug-mode = modifiersKey te vinden in LABO-oefeningen
         private void UpdateTitle()
         {
-            // to do : stringbuilder aanmaken en attemps opvragen en in de title zetten
             StringBuilder sb = new StringBuilder();
             sb.Append(guessAttempts);
             this.Title = sb.ToString();
         }
 
-
-
-
-        //private void ToggleDebug()
-        //{
-        //    if 
-        //}
-        //private void toggleDebug(object sender, KeyEventArgs e)
-        //{
-        //    if ((e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl) && (e.Key == Key.F12))
-
-        //    {
-        //        generatedCodeTextBox.Text = showGeneratedCode;
-        //    }
-        //}
-
-
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.F12)
+            {
+                ToggleDebug();
+            }
+        }
+        private void ToggleDebug()
+        {
+            if (generatedCodeTextBox.Visibility == Visibility.Visible)
+            {
+                generatedCodeTextBox.Visibility = Visibility.Collapsed;
+            }
+            else if (secretCode is List<string> secretCodeList)
+            {
+                generatedCodeTextBox.Text = string.Join(", ", secretCodeList);
+                generatedCodeTextBox.Visibility = Visibility.Visible;
+            }
+        }
     }
 }
 
