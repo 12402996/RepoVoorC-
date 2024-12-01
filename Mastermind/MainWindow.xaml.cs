@@ -34,7 +34,6 @@ namespace C_mastermindSprint1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             StartTimer();
-            StopCountDown();
             var randomCode = new Random();
 
             for (int i = 0; i < 4; i++)
@@ -46,12 +45,27 @@ namespace C_mastermindSprint1
             generatedCodeTextBox.Text = $"{secretCode}".ToString();
             this.Title = $"Poging: {guessAttempts}";
         }
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            // Deel 1. Bereken tijdsverschil
+            TimeSpan timeUsedToGuess = DateTime.Now - startedGuessTime;
+            // Deel 2. controle, if time > 10 seconds
+            if (timeUsedToGuess.TotalSeconds > 10)
+            {
+
+                StopCountDown();
+                startedGuessTime = DateTime.Now.AddSeconds(-1);                           
+            }
+            timerTextBox.Text = timeUsedToGuess.TotalSeconds.ToString("N0");            
+        }
 
         private void StopCountDown()
         {
-            /*De timer stopt na 10 seconden. 
-            Wanneer de speler niet binnen de tijd op de knop "Check code" klikt verliest hij zijn beurt. 
-            Gebruik de methode stopcountdown hiervoor.*/
+            timer.Stop();
+            guessAttempts++;
+            MessageBox.Show("Je beurt is over, probeer opnieuw", "Je tijd is verstreken, To Slow.", MessageBoxButton.OK, MessageBoxImage.Warning);
+            this.Title = $"Poging: {guessAttempts}";
+            StartTimer();
         }
 
         private void StartTimer()
@@ -62,19 +76,6 @@ namespace C_mastermindSprint1
             timer.Start();            
         }
 
-        private void Timer_Tick(object? sender, EventArgs e)
-        {
-            // Deel 1. Bereken tijdsverschil
-            TimeSpan timeUsedToGuess = DateTime.Now - startedGuessTime;
-            // Deel 2. controle, if time > 10 seconds
-            if (timeUsedToGuess.TotalSeconds > 10)
-            {
-                guessAttempts++;
-                startedGuessTime = DateTime.Now;
-                MessageBox.Show("Je beurt is over, probeer opnieuw", "Je tijd is verstreken, To Slow.`", MessageBoxButton.OK, MessageBoxImage.Warning);           
-            }
-            timerTextBox.Text = timeUsedToGuess.TotalSeconds.ToString("N0");            
-        }
 
         private void ComboBoxColour_SelectionChanged1(object sender, SelectionChangedEventArgs e)
         {
@@ -191,8 +192,8 @@ namespace C_mastermindSprint1
             string checkColor3 = comboBoxColour3.Text;
             string checkColor4 = comboBoxColour4.Text;
             List<string> inputColor = new List<string> { checkColor1, checkColor2, checkColor3, checkColor4 };
-            
-            for(int i = 0; i < 4; i++)
+
+            for (int i = 0; i < 4; i++)
             {
                 Label checkColors = null;
 
@@ -211,7 +212,7 @@ namespace C_mastermindSprint1
                 if (secretCode[i] == inputColor[i])
                 {
                     checkColors.BorderBrush = Brushes.DarkRed;
-                    checkColors.BorderThickness = new Thickness(7);                                       
+                    checkColors.BorderThickness = new Thickness(7);
                 }
                 else if (secretCode.Contains(inputColor[i]))
                 {
@@ -225,7 +226,6 @@ namespace C_mastermindSprint1
                 }
             }
 
-
         }
         //Mastermind PE1-02 Debug-mode = modifiersKey te vinden in LABO-oefeningen
         private void UpdateTitle()
@@ -235,6 +235,7 @@ namespace C_mastermindSprint1
             sb.Append(guessAttempts);
             this.Title = sb.ToString();
         }
+
 
 
 
