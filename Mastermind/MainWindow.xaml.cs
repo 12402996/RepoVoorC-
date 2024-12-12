@@ -76,12 +76,17 @@ namespace C_mastermindSprint1
 
                 if (string.IsNullOrWhiteSpace(playerName))
                 {
-                    multiplePlayers.Add(playerName);
+                    MessageBox.Show("Je moet een naam invoeren.", "Ongeldige invoer", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-                MessageBoxResult result = MessageBox.Show("Wil je nog een speler toevoegen?", "Nog een speler?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.No)
+                else
                 {
-                    addMorePlayers = false; // Stop asking for more players
+                    multiplePlayers.Add(playerName);
+                    MessageBoxResult result = MessageBox.Show("Wil je nog een speler toevoegen?",
+                        "Nog een speler?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (result == MessageBoxResult.No)
+                    {
+                        addMorePlayers = false;
+                    }
                 }
             }
             SetMaxAttempts();
