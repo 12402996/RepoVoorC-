@@ -35,28 +35,71 @@ namespace C_mastermindSprint1
         int guessAttempts = 0;
         DateTime startedGuessTime;
         int score = 100;
-
+        private string[] highscores = new string[15];
+        string playerName;
+        int maxAttempts = 0;
+        private List <string> multiplePlayers = new List<string>();
         public MainWindow()
         {
             InitializeComponent();
+            this.Height = 700;
+            this.Width = 550;
+        }
+        private void SetMaxAttempts()
+        {
+            string input = string.Empty;
+            int attempts = 0;
+
+            while (true)
+            {
+                input = Interaction.InputBox("Voer het maximaal aantal pogingen in (tussen 3 en 20):", "Maximaal Aantal Pogingen", maxAttempts.ToString());
+
+                if (int.TryParse(input, out attempts) && attempts >= 3 && attempts <= 20)
+                {
+                    maxAttempts = attempts;
+                    break;
+                }
+                else
+                {
+                    MessageBox.Show("Ongeldige invoer. Voer een getal in tussen 3 en 20.", "Ongeldige Invoer", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
         }
 
         private void StartGame()
         {
-            if (string.IsNullOrEmpty(userNameTextBox.Text))
+            multiplePlayers.Clear();
+            bool addMorePlayers = true;
+            while (addMorePlayers)
             {
-                MessageBox.Show("Je moet je naam ingeven", "Geef je naam in", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                playerName = Interaction.InputBox("Voer je naam in:", "Naam Speler", "");
+
+                if (string.IsNullOrWhiteSpace(playerName))
+                {
+                    multiplePlayers.Add(playerName);
+                }
+                MessageBoxResult result = MessageBox.Show("Wil je nog een speler toevoegen?", "Nog een speler?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.No)
+                {
+                    addMorePlayers = false; // Stop asking for more players
+                }
             }
+            SetMaxAttempts();
+            StartCountDown();
+            // Gebruik de spelernaam zoals nodig
+            this.Title = $"Speler: {playerName} - Poging: {guessAttempts}";
         }
         private void HighScore()
         {
             StringBuilder opslaanHighScore = new StringBuilder();
-            string[] highScores = {"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", };
-            //foreach (string s in highScores)
-            //{
-            //    opslaanHighScore.Append(s);
-            //}
+            foreach (string s in highscores)
+            {
+                if (!string.IsNullOrEmpty(s))
+                {
+                    opslaanHighScore.AppendLine(s);
+                }
+            }
+            MessageBox.Show(opslaanHighScore.ToString(), "Highscores", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -68,9 +111,37 @@ namespace C_mastermindSprint1
 
             generatedCodeTextBox.Text = $"{secretCode}".ToString();
             this.Title = $"Poging: {guessAttempts}";
-            StartCountDown();
             generatedCodeTextBox.Visibility = Visibility.Collapsed;
             StartGame();
+        }
+
+        private void ellipseOne_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Ellipse ellipse)
+            {
+                if (ellipse.Fill == null)
+                {
+                    ellipse.Fill = ellipseColor[0];
+                }
+                else
+                {
+                    // Get the current brush of the ellipse
+                    Brush currentBrush = ellipse.Fill;
+
+                    // Find the current brush in the list
+                    int currentIndex = ellipseColor.IndexOf(currentBrush);
+
+                    // Calculate the index of the next brush
+                    int nextIndex = (currentIndex - 1 + ellipseColor.Count) % ellipseColor.Count;
+
+                    // Get the next brush
+                    Brush nextBrush = ellipseColor[nextIndex];
+
+                    // Set the ellipse's fill to the next brush
+                    ellipse.Fill = nextBrush;
+
+                }
+            }
         }
 
         private void ellipseOne_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -135,28 +206,16 @@ namespace C_mastermindSprint1
             startedGuessTime = DateTime.Now;
             timer.Start();
         }
-        private void AmountOfAttemptsToDecide()
-        {
-            //if (guessAttempts >= {inputUserAttempts})
-            //{
-            //    timer.Stop();
-            //    MessageBoxResult result = MessageBox.Show($"Je hebt geen pogingen meer over. De correcte code was {string.Join(", ", secretCode)}."
-            //        , "Game Over", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    ResetGame();
-               
-            //}
-
-        }
         private void checkButton_Click(object sender, RoutedEventArgs e)
         {
             guessAttempts++;
             this.Title = $"Poging: " + guessAttempts;
             UpdateTitle();
 
-            string checkColor1 = ((SolidColorBrush)ellipseOne.Fill).Color.ToString();
-            string checkColor2 = ((SolidColorBrush)ellipseTwo.Fill).Color.ToString();
-            string checkColor3 = ((SolidColorBrush)ellipseThree.Fill).Color.ToString();
-            string checkColor4 = ((SolidColorBrush)ellipseFour.Fill).Color.ToString();
+            string checkColor1 = colors[ellipseColor.IndexOf(ellipseOne.Fill)];
+            string checkColor2 = colors[ellipseColor.IndexOf(ellipseTwo.Fill)];
+            string checkColor3 = colors[ellipseColor.IndexOf(ellipseThree.Fill)];
+            string checkColor4 = colors[ellipseColor.IndexOf(ellipseFour.Fill)];
 
             List<string> inputColor = new List<string> { checkColor1, checkColor2, checkColor3, checkColor4 };
 
@@ -168,25 +227,25 @@ namespace C_mastermindSprint1
             {
                 Ellipse rect = new Ellipse
                 {
-                    Width = 190,
-                    Height = 40,
+                    Width = 42.5,
+                    Height = 42.5,
                     Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(inputColor[i]))
                 };
 
                 if (secretCode[i] == inputColor[i])
                 {
-                    rect.Stroke = Brushes.DarkRed;
                     rect.StrokeThickness = 5;
+                    rect.Stroke = Brushes.DarkRed;
                 }
                 else if (secretCode.Contains(inputColor[i]))
                 {
-                    rect.Stroke = Brushes.Wheat;
                     rect.StrokeThickness = 5;
+                    rect.Stroke = Brushes.Wheat;
                 }
                 else
                 {
-                    rect.Stroke = Brushes.Transparent;
                     rect.StrokeThickness = 5;
+                    rect.Stroke = Brushes.Transparent;
                 }
 
                 colorPanel.Children.Add(rect);
@@ -195,37 +254,43 @@ namespace C_mastermindSprint1
 
             int penaltyPoints = CalculatePenaltyPoints(inputColor); // Berekening van strafpunten
             score -= penaltyPoints; // Aftrekken van strafpunten van de score
-            labelScore.Content = $"Score: {score}"; // Bijwerken van de score
-            
+            scoreTextBox.Text = $"Score: {score}"; // Bijwerken van de score
+
             if (inputColor.SequenceEqual(secretCode))
             {
                 timer.Stop();
                 MessageBoxResult result = MessageBox.Show($"Proficiat, je hebt de code gekraakt in {guessAttempts} pogingen.",
                     "Gewonnen", MessageBoxButton.OK, MessageBoxImage.Information);
-                ResetGame();
-            }
-            
-            for (int i = 0; i < 4; i++)
-            {
-                Label checkColors = null;
-
-                switch (i)
-                {
-                    case 0:
-                        checkColors = labelColorOne;
-                        break;
-                    case 1:
-                        checkColors = labelColorTwo;
-                        break;
-                    case 2:
-                        checkColors = labelColorThree;
-                        break;
-                    case 3:
-                        checkColors = labelColorFour;
-                        break;
-                }
+                UpdateHighScores();
+                ResetGame();                
             }            
+            else
+            {
+                if (guessAttempts >= maxAttempts)
+                {
+                    timer.Stop();
+                    MessageBoxResult result = MessageBox.Show($"Je hebt geen pogingen meer over. De correcte code was {string.Join(", ", secretCode)}."
+                        , "Game Over", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    ResetGame();
+
+                }
+            }
         }
+
+
+        private void UpdateHighScores()
+        {
+            string newScore = $"{playerName} - {guessAttempts} pogingen - {score}/100";
+            for (int i = 0; i < highscores.Length; i++)
+            {
+                if (string.IsNullOrEmpty(highscores[i]))
+                {
+                    highscores[i] = newScore;
+                    break;
+                }
+            }
+        }
+
         private void ResetGame()
         {
             secretCode.Clear();
@@ -237,10 +302,16 @@ namespace C_mastermindSprint1
 
             guessAttempts = 0;
             score = 100;
-            labelScore.Content = $"Score: {score}";
+            timerTextBox.Text = $"Score: {score}";
             colorHistoryListBox.Items.Clear();
             this.Title = $"Poging: {guessAttempts}";
+            scoreTextBox.Clear();
             StartCountDown();
+            ellipseOne.Fill = ellipseColor[0];
+            ellipseTwo.Fill = ellipseColor[0];
+            ellipseThree.Fill = ellipseColor[0];
+            ellipseFour.Fill = ellipseColor[0];
+            StartGame();
         }
         private int CalculatePenaltyPoints(List<string> userGuess)
         {
@@ -303,22 +374,22 @@ namespace C_mastermindSprint1
 
         private void Menu_Nieuw_Spel_Click(object sender, RoutedEventArgs e)
         {
-
+            ResetGame();
         }
 
         private void Menu_HighScores_Click(object sender, RoutedEventArgs e)
         {
-
+            HighScore();
         }
 
         private void Menu_Afsluiten_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void Menu_Aantal_Pogingen_Click(object sender, RoutedEventArgs e)
         {
-
+            SetMaxAttempts();
         }
 
     }
