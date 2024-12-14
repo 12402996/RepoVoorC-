@@ -38,7 +38,7 @@ namespace C_mastermindSprint1
         private string[] highscores = new string[15];
         string playerName;
         int maxAttempts = 0;
-        private List <string> multiplePlayers = new List<string>();
+        private List<string> multiplePlayers = new List<string>();
         public MainWindow()
         {
             InitializeComponent();
@@ -68,31 +68,33 @@ namespace C_mastermindSprint1
 
         private void StartGame()
         {
-            multiplePlayers.Clear();
-            bool addMorePlayers = true;
-            while (addMorePlayers)
+            if (multiplePlayers.Count == 0)
             {
-                playerName = Interaction.InputBox("Voer je naam in:", "Naam Speler", "");
+                bool addMorePlayers = true;
+                while (addMorePlayers)
+                {
+                    string newPlayerName = Interaction.InputBox("Voer je naam in:", "Naam Speler", "");
 
-                if (string.IsNullOrWhiteSpace(playerName))
-                {
-                    MessageBox.Show("Je moet een naam invoeren.", "Ongeldige invoer", MessageBoxButton.OK, MessageBoxImage.Warning);
-                }
-                else
-                {
-                    multiplePlayers.Add(playerName);
-                    MessageBoxResult result = MessageBox.Show("Wil je nog een speler toevoegen?",
-                        "Nog een speler?", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (result == MessageBoxResult.No)
+                    if (string.IsNullOrWhiteSpace(newPlayerName))
                     {
-                        addMorePlayers = false;
+                        MessageBox.Show("Je moet een naam invoeren.", "Ongeldige invoer", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    else
+                    {
+                        multiplePlayers.Add(newPlayerName);
+                        MessageBoxResult result = MessageBox.Show("Wil je nog een speler toevoegen?",
+                            "Nog een speler?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.No)
+                        {
+                            addMorePlayers = false;
+                        }
                     }
                 }
+                playerName = multiplePlayers[0];
             }
             SetMaxAttempts();
             StartCountDown();
-            // Gebruik de spelernaam zoals nodig
-            this.Title = $"Speler: {playerName} - Poging: {guessAttempts}";
+            labelScore.Content = $"Speler: {playerName} - Score: {score} - Pogingen: {guessAttempts}";
         }
         private void HighScore()
         {
@@ -153,7 +155,7 @@ namespace C_mastermindSprint1
         {
             if (sender is Ellipse ellipse)
             {
-                if(ellipse.Fill == null)
+                if (ellipse.Fill == null)
                 {
                     ellipse.Fill = ellipseColor[0];
                 }
@@ -197,9 +199,19 @@ namespace C_mastermindSprint1
         {
             timer.Stop();
             guessAttempts++;
-            MessageBox.Show("Je beurt is over, probeer opnieuw", "Je tijd is verstreken, To Slow.", MessageBoxButton.OK, MessageBoxImage.Warning);
-            this.Title = $"Poging: {guessAttempts}";
-            StartCountDown();
+            if (guessAttempts >= maxAttempts)
+            {
+                MessageBox.Show($"Je hebt geen pogingen meer over. De correcte code was " +
+                    $"{string.Join(", ", secretCode)}.\n Nu is speler {GetNextPlayer()} aan de beurt", $"{playerName}", MessageBoxButton.OK, MessageBoxImage.Information);
+                ResetGame();
+            }
+            else
+            {
+                MessageBox.Show("Je beurt is over, probeer opnieuw", "Je tijd is verstreken, To Slow.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                this.Title = $"Poging: {guessAttempts}";
+                StartCountDown();
+            }
+
         }
         /// <summary>
         /// Start de interval van de timer en zorgt ervoor dat de timer elke 100 milliseconden telt.
@@ -214,7 +226,7 @@ namespace C_mastermindSprint1
         private void checkButton_Click(object sender, RoutedEventArgs e)
         {
             guessAttempts++;
-            this.Title = $"Poging: " + guessAttempts;
+            this.Title = $"Speler: {playerName} - Poging: {guessAttempts}";
             UpdateTitle();
 
             string checkColor1 = colors[ellipseColor.IndexOf(ellipseOne.Fill)];
@@ -224,10 +236,9 @@ namespace C_mastermindSprint1
 
             List<string> inputColor = new List<string> { checkColor1, checkColor2, checkColor3, checkColor4 };
 
-
             StartCountDown();
 
-            StackPanel colorPanel = new StackPanel { Orientation = Orientation.Horizontal};
+            StackPanel colorPanel = new StackPanel { Orientation = Orientation.Horizontal };
             for (int i = 0; i < inputColor.Count; i++)
             {
                 Ellipse rect = new Ellipse
@@ -261,28 +272,29 @@ namespace C_mastermindSprint1
             score -= penaltyPoints; // Aftrekken van strafpunten van de score
             scoreTextBox.Text = $"Score: {score}"; // Bijwerken van de score
 
+            labelScore.Content = $"Speler: {playerName} - Score: {score} - Pogingen: {guessAttempts}";
             if (inputColor.SequenceEqual(secretCode))
             {
                 timer.Stop();
-                MessageBoxResult result = MessageBox.Show($"Proficiat, je hebt de code gekraakt in {guessAttempts} pogingen.",
-                    "Gewonnen", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBoxResult result = MessageBox.Show
+                    ($"Proficiat, je hebt de code gekraakt in {guessAttempts} pogingen.\n Nu is speler {GetNextPlayer()} aan de beurt.",
+                    $"{playerName}", MessageBoxButton.OK, MessageBoxImage.Information);
                 UpdateHighScores();
-                ResetGame();                
-            }            
+                ResetGame();
+            }
             else
             {
                 if (guessAttempts >= maxAttempts)
                 {
                     timer.Stop();
-                    MessageBoxResult result = MessageBox.Show($"Je hebt geen pogingen meer over. De correcte code was {string.Join(", ", secretCode)}."
-                        , "Game Over", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBoxResult result = MessageBox.Show
+                        ($"Je hebt geen pogingen meer over. De correcte code was {string.Join(", ", secretCode)}.\n" +
+                        $"De volgende speler is {GetNextPlayer()}.", $"{playerName}", MessageBoxButton.OK, MessageBoxImage.Warning);
                     ResetGame();
-
                 }
             }
+            this.Title = $"Speler: {playerName} - Poging: {guessAttempts}";
         }
-
-
         private void UpdateHighScores()
         {
             string newScore = $"{playerName} - {guessAttempts} pogingen - {score}/100";
@@ -311,11 +323,19 @@ namespace C_mastermindSprint1
             colorHistoryListBox.Items.Clear();
             this.Title = $"Poging: {guessAttempts}";
             scoreTextBox.Clear();
-            StartCountDown();
             ellipseOne.Fill = ellipseColor[0];
             ellipseTwo.Fill = ellipseColor[0];
             ellipseThree.Fill = ellipseColor[0];
             ellipseFour.Fill = ellipseColor[0];
+            
+            if (multiplePlayers.IndexOf(playerName) == multiplePlayers.Count - 1)
+            {
+                playerName = multiplePlayers[0];
+            }
+            else
+            {
+                playerName = GetNextPlayer();
+            }
             StartGame();
         }
         private int CalculatePenaltyPoints(List<string> userGuess)
@@ -340,7 +360,6 @@ namespace C_mastermindSprint1
                     penaltyPoints += 2;
                 }
             }
-
             return penaltyPoints;
         }
         private void UpdateTitle()
@@ -397,6 +416,19 @@ namespace C_mastermindSprint1
             SetMaxAttempts();
         }
 
+        private string GetNextPlayer()
+        {
+            if (multiplePlayers.Count == 0)
+            {
+                return string.Empty;
+            }
+            else
+            {
+                int currentIndex = multiplePlayers.IndexOf(playerName);
+                int nextIndex = (currentIndex + 1) % multiplePlayers.Count;
+                return multiplePlayers[nextIndex];
+            }
+        }
     }
 }
 
