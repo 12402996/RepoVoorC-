@@ -498,7 +498,7 @@ namespace C_mastermindSprint1
             Random hintCorrectColorAndPosition = new Random();
             int correctColorAndPosition = hintCorrectColorAndPosition.Next(secretCode.Count);
             string correctColor = secretCode[correctColorAndPosition];
-            MessageBox.Show($"Kleur + positie {correctColorAndPosition + 1} is: {correctColor}", "Hint", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show($"Kleur + positie {correctColorAndPosition + 1} is: {correctColor}", "Hint", MessageBoxButton.OK, MessageBoxImage.Information); 
         }
     }
 }
