@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Permissions;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -61,5 +62,26 @@ namespace H11Oefening_2_Listbox
             }
         }
 
+        private void btnReplace_Click(object sender, RoutedEventArgs e)
+        {
+            //txtReplace.Text;
+            //ListBoxItem changeListboxItem = new ListBoxItem();
+            //simpleListBox.Items[simpleListBox.SelectedIndex] = changeListboxItem;
+            simpleListBox.Items[simpleListBox.SelectedIndex] = txtReplace.Text;
+        }
+
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            int index = 0;
+            foreach (ListBoxItem item in simpleListBox.Items)
+            {
+                if(item.Content.ToString().Equals(txtSearch.Text))
+                {                    
+                    break;
+                }
+                else index++;
+            }
+            searchLabel.Content = $"Naam komt voor op: {index +1}";
+        }
     }
 }

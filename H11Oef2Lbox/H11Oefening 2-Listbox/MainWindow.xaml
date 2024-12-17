@@ -41,7 +41,7 @@
              Margin="350,50,0,0" 
              HorizontalAlignment="Left" 
              VerticalAlignment="Top" 
-             x:Name="btnReplace"/>
+             x:Name="btnReplace" Click="btnReplace_Click"/>
         <Button Content="Toevoegen" 
              Width="80" Height="25" 
              Margin="350,90,0,0" 
@@ -53,7 +53,7 @@
              Margin="350,130,0,0" 
              HorizontalAlignment="Left" 
              VerticalAlignment="Top" 
-             x:Name="btnSearch"/>
+             x:Name="btnSearch" Click="btnSearch_Click"/>
 
         <Button Content="Item verwijderen" 
              Width="120" Height="30" 
@@ -73,9 +73,8 @@
              HorizontalAlignment="Left" 
              VerticalAlignment="Top" 
              x:Name="btnSort" Click="btnSort_Click" />
-        <Label 
-            Width="100" Height="50"
-            Margin="0,0,270,0"
+        <Label Height="50"
+            Margin="205,182,407,182"
             x:Name="searchLabel"/>
         <ListBox x:Name="simpleListBox_Multiple" 
             Width="150" Height="250" 
