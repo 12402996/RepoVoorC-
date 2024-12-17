@@ -1,0 +1,25 @@
+﻿<Window x:Class="VulkanenGids.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VulkanenGids"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid Background="IndianRed">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="3*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Viewbox>
+            <TextBlock Grid.Column="0" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5">Vulkan Gids</TextBlock>
+        </Viewbox>
+        <ComboBox Name="vulkanenComboBox" Grid.Row="1" Height="40" Margin="18,263,18,22" SelectionChanged="ComboBox_SelectionChanged"></ComboBox>
+        <Image Margin="66,23,86,122" Grid.Row="1" Source="/image3.png" Stretch="None"/>
+        <TextBox x:Name="resultTextBox" Grid.Row="1" Grid.Column="2" Margin="5" Background="DarkRed"></TextBox>
+    </Grid>
+</Window>

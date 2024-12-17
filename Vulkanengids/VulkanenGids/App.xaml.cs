@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace C_mastermindSprint1
+namespace VulkanenGids
 {
     /// <summary>
     /// Interaction logic for App.xaml
